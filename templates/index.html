@@ -1,0 +1,321 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPKA PAY</title>
+    <style>
+        :root {
+            --primary: #7F1D1D;
+            --primary-hover: #631717;
+            --text: #A3A3A3;
+            --light: #f9fafb;
+            --border: #333333;
+            --error: #ef4444;
+            --header: #0A0A0A;
+            --background: #171717;
+        }
+
+        .light-theme {
+            --primary: #7F1D1D;
+            --primary-hover: #9B2929;
+            --text: #333333;
+            --light: #ffffff;
+            --border: #e0e0e0;
+            --error: #d32f2f;
+            --header: #ffffff;
+            --background: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .payment-container {
+            background: var(--header);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--border);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .platform-title {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 5px;
+            font-weight: 500;
+            padding: 8px 16px;
+            background-color: rgba(127, 29, 29, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .payment-header {
+            margin-bottom: 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .payment-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .payment-header p {
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .payment-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .payment-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .payment-form input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background-color: var(--header);
+            color: var(--text);
+        }
+
+        .payment-form input::placeholder {
+            color: #666666;
+        }
+
+        .payment-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(127, 29, 29, 0.1);
+        }
+
+        .payment-form button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 8px;
+        }
+
+        .payment-form button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .currency-prefix {
+            display: flex;
+            align-items: center;
+        }
+
+        .currency-prefix span {
+            padding: 12px 16px;
+            background-color: var(--header);
+            border: 1px solid var(--border);
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .currency-prefix input {
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 480px) {
+            .payment-container {
+                padding: 24px;
+            }
+            .logo {
+                max-width: 140px;
+            }
+            .platform-title {
+                font-size: 14px;
+            }
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <span id="themeIcon">🌙</span>
+        <span id="themeText">Dark Mode</span>
+    </button>
+
+    <div class="payment-container">
+        <div class="logo-container">
+            <img src="https://spka.jages.org/board/spka_logo.png" alt="PBTPay Logo" class="logo">
+            <div class="platform-title">Payment Gateway Integration Test Platform with PBTPay</div>
+        </div>
+
+        <div class="payment-header">
+            <h1>Create Payment</h1>
+            <p>Enter your details to proceed with payment</p>
+        </div>
+
+        <form class="payment-form" action="/create" method="post">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Payment Amount</label>
+                <div class="currency-prefix">
+                    <span>MYR</span>
+                    <input type="number" id="amount" name="amount" placeholder="0.00" min="0.01" step="0.01" required>
+                </div>
+            </div>
+
+            <button type="submit">Proceed to Payment</button>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const body = document.body;
+
+        // Initialize theme
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Priority: saved preference > system preference > default light
+            if (savedTheme) {
+                body.classList.toggle('light-theme', savedTheme === 'light');
+            } else {
+                // If no saved preference, use system preference
+                body.classList.toggle('light-theme', !prefersDark);
+                // Save system preference
+                localStorage.setItem('theme', prefersDark ? 'dark' : 'light');
+            }
+            updateThemeButton();
+        }
+
+        // Update toggle button appearance
+        function updateThemeButton() {
+            const isLight = body.classList.contains('light-theme');
+            themeIcon.textContent = isLight ? '☀️' : '🌙';
+            themeText.textContent = isLight ? 'Light Mode' : 'Dark Mode';
+
+            // Optional: Update aria-label for accessibility
+            themeToggle.setAttribute('aria-label',
+                isLight ? 'Switch to dark mode' : 'Switch to light mode');
+        }
+
+        // Handle theme toggle click
+        function handleThemeToggle() {
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            updateThemeButton();
+        }
+
+        // Watch for system preference changes
+        function watchSystemPreference() {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) { // Only respond if no user preference
+                    body.classList.toggle('light-theme', !e.matches);
+                    updateThemeButton();
+                }
+            });
+        }
+
+        // Initialize everything
+        initializeTheme();
+        watchSystemPreference();
+        themeToggle.addEventListener('click', handleThemeToggle);
+
+        // Optional: Keyboard accessibility
+        themeToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleThemeToggle();
+            }
+        });
+    });
+    </script>
+</body>
+</html>
