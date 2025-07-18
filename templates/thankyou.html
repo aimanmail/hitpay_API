@@ -1,0 +1,207 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful | Thank You</title>
+    <meta http-equiv="refresh" content="5; url=/" />
+    <style>
+        :root {
+            --primary: #7F1D1D;
+            --primary-light: #9B2929;
+            --success: #10b981;
+            --text: #A3A3A3;
+            --text-light: #8a8a8a;
+            --background: #171717;
+            --card-bg: #0A0A0A;
+            --border: #333333;
+        }
+
+        .light-theme {
+            --primary: #7F1D1D;
+            --primary-light: #9B2929;
+            --success: #10b981;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #f5f5f5;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .thank-you-container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-out;
+            border: 1px solid var(--border);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--success);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--success);
+        }
+
+        p {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .redirect-message {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(127, 29, 29, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+
+        .redirect-message svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(127, 29, 29, 0.3);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background-color: var(--border);
+            border-radius: 2px;
+            margin-top: 32px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 100%;
+            animation: progressCountdown 5s linear forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes progressCountdown {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        @media (max-width: 480px) {
+            .thank-you-container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+
+        <h1>Payment Successful!</h1>
+        <p>Thank you for your payment. Your transaction has been completed successfully.</p>
+
+        <div class="redirect-message">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>You will be redirected in <span id="countdown">5</span> seconds...</span>
+        </div>
+
+        <a href="/" class="btn">Return Home</a>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Check for saved theme preference when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+            }
+
+            // Countdown timer (existing code)
+            let seconds = 5;
+            const countdownElement = document.getElementById('countdown');
+            const countdown = setInterval(() => {
+                seconds--;
+                countdownElement.textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
