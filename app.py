@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = "test_bde227188757bcfa53707f0f1b89a350d8bd7c4cc36db7cd337d446a09a0de54"
+API_KEY = "Add_Your_API_Keys_Here"
 HEADERS = {
     "X-BUSINESS-API-KEY": API_KEY,
     "Content-Type": "application/json"
@@ -25,7 +25,7 @@ def create_payment():
         "currency": "MYR",
         "name": name,
         "email": email,
-        "redirect_url": "https://pbtp.jages.org/thankyou"
+        "redirect_url": "https://your-domain-name/thankyou"
     }
 
     response = requests.post(BASE_URL, headers=HEADERS, json=payload)
